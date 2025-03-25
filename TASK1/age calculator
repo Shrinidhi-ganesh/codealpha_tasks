@@ -1,1 +1,126 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4, #fbc2eb, #a18cd1, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            color: #fff;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.2);
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 90%;
+            border: none;
+            border-radius: 5px;
+        }
+        input {
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+        button {
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4, #fbc2eb);
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        button:hover {
+            transform: scale(1.1);
+        }
+        #result {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .emoji {
+            font-size: 50px;
+            margin-top: 10px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .fun-fact {
+            font-size: 16px;
+            font-style: italic;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🎂 Age Calculator 🎂</h2>
+        <label for="dob">Enter your Date of Birth:</label>
+        <input type="date" id="dob">
+        <button onclick="calculateAge()">Calculate Age</button>
+        <p id="result"></p>
+        <p class="emoji" id="emoji">🎈</p>
+        <p class="fun-fact" id="funFact"></p>
+    </div>
+    <script>
+        function calculateAge() {
+            let dob = document.getElementById('dob').value;
+            if (!dob) {
+                document.getElementById('result').innerText = "Please enter your date of birth.";
+                return;
+            }
+            
+            let birthDate = new Date(dob);
+            let today = new Date();
+            
+            let ageYears = today.getFullYear() - birthDate.getFullYear();
+            let ageMonths = today.getMonth() - birthDate.getMonth();
+            let ageDays = today.getDate() - birthDate.getDate();
+            
+            if (ageDays < 0) {
+                ageMonths--;
+                ageDays += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+            }
+            if (ageMonths < 0) {
+                ageYears--;
+                ageMonths += 12;
+            }
+            
+            document.getElementById('result').innerText = `You are ${ageYears} years, ${ageMonths} months, and ${ageDays} days old.`;
+            
+            let emoji = document.getElementById('emoji');
+            emoji.style.transform = "scale(1.2)";
+            setTimeout(() => {
+                emoji.style.transform = "scale(1)";
+            }, 300);
+            
+            displayFunFact(ageYears);
+        }
+        
+        function displayFunFact(age) {
+            const facts = [
+                "You have lived for over " + (age * 365) + " days! 🌞",
+                "Your heart has beaten approximately " + (age * 365 * 100000) + " times! ❤️",
+                "You have spent around " + (age * 365 * 8) + " hours sleeping! 😴",
+                "Your age in dog years is about " + (age * 7) + " years! 🐶",
+                "You have taken around " + (age * 365 * 5000) + " steps in your life! 🚶"
+            ];
+            
+            document.getElementById('funFact').innerText = facts[Math.floor(Math.random() * facts.length)];
+        }
+    </script>
+</body>
+</html>
